@@ -23,6 +23,9 @@ const btnDecodificarShannon = document.getElementById("btnDecodificarShannon");
 
 const resultadoDecodificacion = document.getElementById("resultadoDecodificacion");
 
+const graficoCodigos = document.getElementById("graficoCodigos");
+
+let chartCodigos = null;
 let codigosHuffman = {};
 let codigosShannon = {};
 
@@ -74,6 +77,11 @@ btnLimpiar.addEventListener("click", () => {
     textoShannon.value = "";
     resultadoDecodificacion.textContent = "-";
     mensajeCodificacion.textContent = "";
+
+    if (chartCodigos !== null) {
+        chartCodigos.destroy();
+        chartCodigos = null;
+    }
 });
 
 function mostrarResultados(datos) {
@@ -97,6 +105,7 @@ function mostrarResultados(datos) {
     textoShannon.value = shannon.texto_codificado;
 
     construirTabla(huffman.tabla, shannon.tabla);
+    construirGrafico(huffman.tabla, shannon.tabla);
 }
 
 function construirTabla(tablaHuffman, tablaShannon) {
@@ -164,4 +173,67 @@ async function decodificar(url, cadena, codigos) {
         resultadoDecodificacion.textContent = "No se pudo decodificar.";
         console.error(error);
     }
+}
+
+function construirGrafico(tablaHuffman, tablaShannon) {
+    const simbolos = tablaHuffman.map(item => mostrarSimbolo(item.simbolo));
+
+    const longitudesHuffman = tablaHuffman.map(item => item.longitud);
+
+    const longitudesShannon = tablaHuffman.map(itemHuffman => {
+        const itemShannon = tablaShannon.find(
+            item => item.simbolo === itemHuffman.simbolo
+        );
+
+        return itemShannon ? itemShannon.longitud : 0;
+    });
+
+    if (chartCodigos !== null) {
+        chartCodigos.destroy();
+    }
+
+    chartCodigos = new Chart(graficoCodigos, {
+        type: "bar",
+        data: {
+            labels: simbolos,
+            datasets: [
+                {
+                    label: "Longitud Huffman",
+                    data: longitudesHuffman
+                },
+                {
+                    label: "Longitud Shannon-Fano",
+                    data: longitudesShannon
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Comparación de longitud de códigos por símbolo"
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    },
+                    title: {
+                        display: true,
+                        text: "Longitud en bits"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Símbolos"
+                    }
+                }
+            }
+        }
+    });
 }

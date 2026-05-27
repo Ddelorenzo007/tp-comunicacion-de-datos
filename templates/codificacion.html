@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Codificación de Datos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -60,6 +61,11 @@
             <tbody id="tablaSimbolos"></tbody>
         </table>
 
+        <h3>Gráfico comparativo</h3>
+        <div class="contenedor-grafico">
+            <canvas id="graficoCodigos"></canvas>
+        </div>
+        
         <h3>Texto codificado</h3>
 
         <div class="codigos">
