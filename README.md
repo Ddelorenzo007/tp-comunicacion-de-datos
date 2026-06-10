@@ -10,7 +10,7 @@
 ## Descripción
 
 Aplicación web desarrollada para la materia Comunicación de Datos.  
-Permite simular procesos de digitalización de imágenes y codificación de datos mediante los algoritmos de Huffman y Shannon-Fano.
+Permite simular procesos de digitalización de imágenes.
 
 ## Tecnologías utilizadas
 
@@ -31,15 +31,6 @@ Permite simular procesos de digitalización de imágenes y codificación de dato
 - Reducción de profundidad de bits.
 - Comparación entre imagen original y digitalizada.
 - Cálculo de tamaño estimado.
-
-### Codificación de Datos
-
-- Ingreso de texto.
-- Cálculo de frecuencias.
-- Codificación con Huffman.
-- Codificación con Shannon-Fano.
-- Decodificación.
-- Comparación de métricas.
 
 ## Instalación y ejecución
 
